@@ -14,13 +14,13 @@ const TaskFormComponent = ({
       <form>
         <label>
           Title:
-          <input type="text" value={title} onChange={handleTitle(setTitle)} />
+          <input type="text" value={title} onChange={(event) => handleTitle(event, setTitle)} />
         </label>
         <label>
           Workload:
-          <input type="number" value={workload} onChange={handleWorkload(setWorkload)} />
+          <input type="text" value={workload === 0 ? "" : workload} onChange={(event) => handleWorkload(event, setWorkload)} />
         </label>
-        <button type='submit' onClick={handleSubmit(createTask, title, workload)}>Create</button>
+        <button type='submit' onClick={(event) => handleSubmit(event, createTask, setTitle, setWorkload, title, workload)}>Create</button>
       </form>
     </div>
   )

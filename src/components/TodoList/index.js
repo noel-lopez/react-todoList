@@ -9,35 +9,31 @@ import {
   deleteTask,
   goToTask,
   goBack,
+  tasksMock
 } from './controller';
 import { useState } from 'react';
 import TaskForm from '../TaskForm';
 import TaskTitle from '../TaskTitle';
 import Card from '../Card';
 
+
+
 const TodoListComponent = ({
-  parentIdx= [],
-  tasksList= [
-    {
-      title: 'Root',
-      workload: 0,
-      status: 'pending',
-      subtasks: []
-    }
-  ]
+  parentIdx = [],
+  tasksList = tasksMock
 }) => {
   const [parentIndex, setParentIndex] = useState(parentIdx)
   const [tasks, setTasks] = useState(tasksList)
 
   /*
     todolist:
-    - TODO: use props on changeStatus, deleteTask, goToTask (Card component)
-    - TODO: think about props for createTask (TaskForm component)
+    - TODO: use props on changeStatus & deleteTask (Card component)
+    - TODO: think about putting the task h1 inside the TaskTitle component
   */
   return (
     <>
-      <TaskForm createTask={createTask} />
-      <h1><button onClick={() => goBack()}>go back</button>{getTitle(parentIndex, tasks)}</h1>
+      <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
+      <h1><button onClick={() => goBack(parentIndex, setParentIndex)}>{"<"}</button>{getTitle(parentIndex, tasks)}</h1>
       <TaskTitle parentIndex={parentIndex} tasks={tasks} />
       <div className="todoList">
         <div className="column">
@@ -49,7 +45,7 @@ const TodoListComponent = ({
                 task={task}
                 changeStatus={() => changeStatus()}
                 deleteTask={() => deleteTask()}
-                goToTask={() => goToTask()}
+                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
             ))
           }
@@ -63,7 +59,7 @@ const TodoListComponent = ({
                 task={task}
                 changeStatus={() => changeStatus()}
                 deleteTask={() => deleteTask()}
-                goToTask={() => goToTask()}
+                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
             ))
           }
@@ -77,7 +73,7 @@ const TodoListComponent = ({
                 task={task}
                 changeStatus={() => changeStatus()}
                 deleteTask={() => deleteTask()}
-                goToTask={() => goToTask()}
+                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
             ))
           }

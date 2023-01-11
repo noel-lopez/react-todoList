@@ -5,12 +5,12 @@ export const logTask = (task) => {
 export const getEmoji = (status) => {
   switch(status) {
     case 'pending':
-      return '📝';
+      return '😴';
     case 'in progress':
-      return '👨‍💻';
+      return '👨🏻‍💻';
     case 'done':
       return '✅';
     default:
-      return '🤷‍♂️';
+      return '🤷🏻‍♂️';
   }
 }

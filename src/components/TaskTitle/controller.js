@@ -1,3 +1,11 @@
-// TODO: getParentWorkload(parentIndex, tasks)
+import { getParentTask } from "../TodoList/controller";
 
-// TODO: getParentStatus(parentIndex, tasks) -> returns status + emoji
+export const getParentWorkload = (parentIndex, tasks) => {
+  let parent = getParentTask(parentIndex, tasks);
+  return parent.workload;
+}
+
+export const getParentStatus = (parentIndex, tasks) => {
+  let parent = getParentTask(parentIndex, tasks);
+  return parent.status;
+}
