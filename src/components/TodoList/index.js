@@ -10,7 +10,6 @@ import {
   goToTask,
   goBack,
   tasksMock,
-  updateTasks
 } from './controller';
 import { useState } from 'react';
 import TaskForm from '../TaskForm';
@@ -33,8 +32,8 @@ const TodoListComponent = ({
   */
   return (
     <>
-      <button onClick={() => setTasks(updateTasks(tasks))}>Update</button>
-      <button onClick={() => console.log(tasks)}>Log tasks</button>
+      {/* <button onClick={() => setTasks(updateTasks(tasks))}>Update</button> */}
+      {/* <button onClick={() => console.log(tasks)}>Log tasks</button> */}
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
       <h1><button onClick={() => goBack(parentIndex, setParentIndex)}>{"<"}</button>{getTitle(parentIndex, tasks)}</h1>
       <TaskTitle parentIndex={parentIndex} tasks={tasks} />

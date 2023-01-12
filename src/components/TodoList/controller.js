@@ -1,8 +1,8 @@
 export const tasksMock = [
   {
     title: "Root",
-    workload: 0,
-    status: "pending",
+    workload: 6,
+    status: "in progress",
     subtasks: [
       {
         title: "Subtask 1",
@@ -12,7 +12,7 @@ export const tasksMock = [
       },
       {
         title: "Subtask 2",
-        workload: 2,
+        workload: 3,
         status: "in progress",
         subtasks: [
           {
@@ -46,7 +46,7 @@ export const createTask = (parentIdx, tasksList, setTasks, task) => {
   setTasks(auxTaskList);
 }
 
-// TODO: refactor: do it better readable
+// TODO refactor: do it better readable
 export const getTitle = (parentIndex, tasksList) => {
   if(parentIndex.length === 0) return "Root";
   let parent = getParentTask(parentIndex, tasksList);
@@ -75,6 +75,7 @@ const hasMoreThanOneChild = (task) => {
   return false;
 }
 
+// TODO extra: move task to the end of the list when updating status
 export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
@@ -84,10 +85,10 @@ export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) =
   setTasks(auxTaskList);
 }
 
+// TODO extra: show Modal asking for update all subtasks or not, instead of just not updating anything
 const setStatus = (task, newStatus) => {
   // if task has more than one child, we dont update anything and console log a warning
   if (hasMoreThanOneChild(task)) {
-    // TODO: show Modal asking for update all subtasks or not, instead of just not updating anything
     alert("Warning: You are trying to update the status of a task with mutiple subtasks. Please update the status of the subtasks instead.");
     return task;
   } else {
@@ -178,3 +179,5 @@ const updateTasksStatus = (tasksList) => {
   });
   return tasksList;
 }
+
+// TODO extra: be able to move task position in the list
