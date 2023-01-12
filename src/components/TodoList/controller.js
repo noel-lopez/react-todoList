@@ -46,10 +46,11 @@ export const createTask = (parentIdx, tasksList, setTasks, task) => {
   setTasks(auxTaskList);
 }
 
-// TODO: getTitle(parentIndex, tasks) - use recursion to get all the parents titles
+// TODO: refactor: do it better readable
 export const getTitle = (parentIndex, tasksList) => {
+  if(parentIndex.length === 0) return "Root";
   let parent = getParentTask(parentIndex, tasksList);
-  return parent.title;
+  return getTitle(parentIndex.slice(0, parentIndex.length - 1), tasksList) + " > " + parent.title;
 }
 
 export const getPendingTasks = (parentIndex, tasksList) => {
