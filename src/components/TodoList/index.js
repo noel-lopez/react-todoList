@@ -10,11 +10,14 @@ import {
   goToTask,
   goBack,
   tasksMock,
+  moveUp,
+  moveDown,
 } from './controller';
 import { useState } from 'react';
 import TaskForm from '../TaskForm';
 import TaskTitle from '../TaskTitle';
 import Card from '../Card';
+import EmojisLegend from '../EmojisLegend';
 
 
 
@@ -34,6 +37,7 @@ const TodoListComponent = ({
     <>
       {/* <button onClick={() => setTasks(updateTasks(tasks))}>Update</button> */}
       {/* <button onClick={() => console.log(tasks)}>Log tasks</button> */}
+      <EmojisLegend />
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
       <h1><button onClick={() => goBack(parentIndex, setParentIndex)}>{"<"}</button>{getTitle(parentIndex, tasks)}</h1>
       <TaskTitle parentIndex={parentIndex} tasks={tasks} />
@@ -48,6 +52,8 @@ const TodoListComponent = ({
                 changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
                 deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
               />
             ))
           }
@@ -62,6 +68,8 @@ const TodoListComponent = ({
                 changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
                 deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
               />
             ))
           }
@@ -76,6 +84,8 @@ const TodoListComponent = ({
                 changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
                 deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
               />
             ))
           }

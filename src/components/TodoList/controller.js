@@ -31,10 +31,11 @@ export const getParentTask = (parentIdx, tasksList) => {
   if (parentIdx.length === 0) {
     return tasksList[0];
   }
-  // TODO refactor: use foreach instead of reduce
-  return parentIdx.reduce((acc, curr) => {
-    return acc.subtasks[curr];
-  }, tasksList[0]);
+  let acc = tasksList[0];
+  parentIdx.forEach((index) => {
+    acc = acc.subtasks[index];
+  })
+  return acc;
 };
 
 export const createTask = (parentIdx, tasksList, setTasks, task) => {
@@ -84,15 +85,18 @@ const hasMoreThanOneChild = (task) => {
 export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
-  let idx = parent.subtasks.indexOf(task);
-  parent.subtasks[idx] = setStatus(parent.subtasks[idx], newStatus);
+  // remove task from auxTaskList
+  parent.subtasks = parent.subtasks.filter(t => t !== task);
+  // add task to the end of the list with the new status
+  let newTask = setStatus(task, newStatus);
+  parent.subtasks.push(newTask);
+  // update tasks
   updateTasks(auxTaskList, setTasks);
   setTasks(auxTaskList);
 }
 
 // TODO extra: show Modal asking for update all subtasks or not, instead of just not updating anything
 const setStatus = (task, newStatus) => {
-  // if task has more than one child, we dont update anything and console log a warning
   if (hasMoreThanOneChild(task)) {
     alert("Warning: You are trying to update the status of a task with mutiple subtasks. Please update the status of the subtasks instead.");
     return task;
@@ -185,4 +189,70 @@ const updateTasksStatus = (tasksList) => {
   return tasksList;
 }
 
-// TODO extra: be able to move task position in the list
+// TODO extra: be able to move task position in the column
+
+const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
+  // check previous index of task with the same status of the task
+  let parent = getParentTask(parentIndex, tasksList);
+  let idx = parent.subtasks.indexOf(task);
+  if(idx === 0) {
+    return -1;
+  }
+  let prevTask = parent.subtasks[idx - 1];
+  if(prevTask.status === task.status) {
+    return idx - 1;
+  }
+  return checkPrevTaskIndex(parentIndex, tasksList, prevTask);
+}
+
+const checkNextTaskIndex = (parentIndex, tasksList, task) => {
+  // check next index of task with the same status of the task
+  let parent = getParentTask(parentIndex, tasksList);
+  let idx = parent.subtasks.indexOf(task);
+  if(idx === parent.subtasks.length - 1) {
+    return -1;
+  }
+  let nextTask = parent.subtasks[idx + 1];
+  if(nextTask.status === task.status) {
+    return idx + 1;
+  }
+  return checkNextTaskIndex(parentIndex, tasksList, nextTask);
+}
+
+export const moveUp = (parentIndex, tasksList, setTasks, task) => {
+  // move up to the previous task with the same status
+  let auxTaskList = [...tasksList];
+  let parent = getParentTask(parentIndex, auxTaskList);
+  let idx = parent.subtasks.indexOf(task);
+  if(idx === 0) {
+    return;
+  }
+  let prevTaskIndex = checkPrevTaskIndex(parentIndex, auxTaskList, task);
+  if(prevTaskIndex === -1) {
+    return;
+  }
+  let prevTask = parent.subtasks[prevTaskIndex];
+  parent.subtasks[idx] = prevTask;
+  parent.subtasks[prevTaskIndex] = task;
+  console.log("moving up")
+  setTasks(auxTaskList);
+}
+
+export const moveDown = (parentIndex, tasksList, setTasks, task) => {
+  // move down to the next task with the same status
+  let auxTaskList = [...tasksList];
+  let parent = getParentTask(parentIndex, auxTaskList);
+  let idx = parent.subtasks.indexOf(task);
+  if(idx === parent.subtasks.length - 1) {
+    return;
+  }
+  let nextTaskIndex = checkNextTaskIndex(parentIndex, auxTaskList, task);
+  if(nextTaskIndex === -1) {
+    return;
+  }
+  let nextTask = parent.subtasks[nextTaskIndex];
+  parent.subtasks[idx] = nextTask;
+  parent.subtasks[nextTaskIndex] = task;
+  console.log("moving down")
+  setTasks(auxTaskList);
+}
