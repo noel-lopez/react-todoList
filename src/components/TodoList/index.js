@@ -28,7 +28,6 @@ const TodoListComponent = ({
 
   /*
     todolist:
-    - TODO: use props on changeStatus & deleteTask (Card component)
     - TODO refactor: put the task h1 inside the TaskTitle component
     - TODO refactor: make the columns a component with props title and tasksToShow
   */

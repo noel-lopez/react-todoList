@@ -18,7 +18,7 @@ export const tasksMock = [
           {
             title: "Subtask 2.1",
             workload: 3,
-            status: "pending",
+            status: "in progress",
             subtasks: []
           },
         ]
@@ -36,6 +36,8 @@ export const getParentTask = (parentIdx, tasksList) => {
     return acc.subtasks[curr];
   }, tasksList[0]);
 };
+
+// TODO: createTask() - updateTasks before setTasks
 
 export const createTask = (parentIdx, tasksList, setTasks, task) => {
   if(task.title === "") return;
@@ -67,11 +69,22 @@ export const getDoneTasks = (parentIndex, tasksList) => {
 }
 
 // TODO: changeStatus() - updateTasks before setTasks
-// TODO: handle the case when the task has subtasks and what to do with them
+// TODO: prop to show Modal instead of console.log warning
 export const changeStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
   let idx = parent.subtasks.indexOf(task);
+  // check how many children tasks has the task to be updated
+  let childrenTasks = parent.subtasks[idx].subtasks;
+  // if the task has only one child, we can update child status
+  if (childrenTasks.length === 1) {
+    parent.subtasks[idx].subtasks[0].status = newStatus;
+  }
+  // if the task has more than one child, we dont update anything and console log a warning
+  if (childrenTasks.length > 1) {
+    console.log("Warning: the task has more than one child, so we dont update anything");
+    return
+  } 
   parent.subtasks[idx].status = newStatus;
   setTasks(auxTaskList);
 }
@@ -110,20 +123,21 @@ export const goBack = (parentIndex, setParentIndex) => {
 export const updateTasks = (tasksList, setTasks, parentIndex=[]) => {
   let auxTaskList = [...tasksList];
   auxTaskList = updateTasksWorkload(auxTaskList);
+  auxTaskList = updateTasksStatus(auxTaskList);
   setTasks(auxTaskList);
 }
 
-const updateTasksWorkload = (tasks) => {
+const updateTasksWorkload = (tasksList) => {
   // a parent workload is the sum of all his subtasks workload
   // use recursion to update all the tasks
-  tasks.forEach((task) => {
+  tasksList.forEach((task) => {
     updateTasksWorkload(task.subtasks);
     if(task.subtasks.length === 0) {
-      return tasks;
+      return task;
     }
     task.workload = task.subtasks.reduce((acc, subtask) => acc + subtask.workload, 0);
   });
-  return tasks;
+  return tasksList;
 }
 
 const updateTasksStatus = (tasksList) => {
@@ -132,5 +146,30 @@ const updateTasksStatus = (tasksList) => {
   // a parent task status is in progress if at least one of his subtasks is in progress or done
   // a parent task status is pending if all his subtasks are pending
   // use recursion to update all the tasks
-  // TODO
+  tasksList.forEach((task) => {
+    updateTasksStatus(task.subtasks)
+    if(task.subtasks.length === 0) {
+      return task;
+    }
+    if(task.subtasks.length === 1) {
+      task.status = task.subtasks[0].status;
+      return task;
+    }
+    let done = task.subtasks.filter(subtask => subtask.status === "done");
+    let inProgress = task.subtasks.filter(subtask => subtask.status === "in progress");
+    let pending = task.subtasks.filter(subtask => subtask.status === "pending");
+    if(done.length === task.subtasks.length) {
+      task.status = "done";
+      return task;
+    }
+    if(pending.length === task.subtasks.length) {
+      task.status = "pending";
+      return task;
+    }
+    if(inProgress.length > 0 || done.length > 0) {
+      task.status = "in progress";
+      return task;
+    }
+  });
+  return tasksList;
 }
