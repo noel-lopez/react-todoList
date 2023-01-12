@@ -8,6 +8,8 @@ const TaskFormComponent = ({
   const [title, setTitle] = useState('');
   const [workload, setWorkload] = useState(0);
 
+  // TODO refactor: asbtract inputs onChange and workload input value
+
   return (
     <div>
       <h2>New Task</h2>

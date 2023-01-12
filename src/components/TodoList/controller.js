@@ -75,7 +75,6 @@ export const getDoneTasks = (parentIndex, tasksList) => {
 }
 
 const hasMoreThanOneChild = (task) => {
-  // recursion to check if the task has more than one child or if has only one child with more than one child
   if(task.subtasks.length > 1) return true;
   if(task.subtasks.length === 1) return hasMoreThanOneChild(task.subtasks[0]);
   return false;
@@ -85,12 +84,9 @@ const hasMoreThanOneChild = (task) => {
 export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
-  // remove task from auxTaskList
   parent.subtasks = parent.subtasks.filter(t => t !== task);
-  // add task to the end of the list with the new status
   let newTask = setStatus(task, newStatus);
   parent.subtasks.push(newTask);
-  // update tasks
   updateTasks(auxTaskList, setTasks);
   setTasks(auxTaskList);
 }
@@ -101,7 +97,6 @@ const setStatus = (task, newStatus) => {
     alert("Warning: You are trying to update the status of a task with mutiple subtasks. Please update the status of the subtasks instead.");
     return task;
   } else {
-    // if task has only one child, we update the status of the child and the parent
     if(task.subtasks.length === 1) {
       task.subtasks[0] = setStatus(task.subtasks[0], newStatus);
     }
@@ -143,8 +138,6 @@ export const updateTasks = (tasksList) => {
 }
 
 const updateTasksWorkload = (tasksList) => {
-  // a parent workload is the sum of all his subtasks workload
-  // use recursion to update all the tasks
   tasksList.forEach((task) => {
     updateTasksWorkload(task.subtasks);
     if(task.subtasks.length === 0) {
@@ -156,11 +149,14 @@ const updateTasksWorkload = (tasksList) => {
 }
 
 const updateTasksStatus = (tasksList) => {
-  // a parent task status is the subtask status when has only one subtask
-  // a parent task status is done if all his subtasks are done
-  // a parent task status is in progress if at least one of his subtasks is in progress or done
-  // a parent task status is pending if all his subtasks are pending
-  // use recursion to update all the tasks
+  /*
+    PARENT TASK STATUS:
+    - one subtask: same status as subtask
+    - more than one subtask:
+      - all subtasks done: done
+      - at least one subtask in progress or done: in progress
+      - all subtasks pending: pending
+  */
   tasksList.forEach((task) => {
     updateTasksStatus(task.subtasks)
     if(task.subtasks.length === 0) {
@@ -192,7 +188,6 @@ const updateTasksStatus = (tasksList) => {
 // TODO extra: be able to move task position in the column
 
 const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
-  // check previous index of task with the same status of the task
   let parent = getParentTask(parentIndex, tasksList);
   let idx = parent.subtasks.indexOf(task);
   if(idx === 0) {
@@ -206,7 +201,6 @@ const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
 }
 
 const checkNextTaskIndex = (parentIndex, tasksList, task) => {
-  // check next index of task with the same status of the task
   let parent = getParentTask(parentIndex, tasksList);
   let idx = parent.subtasks.indexOf(task);
   if(idx === parent.subtasks.length - 1) {
@@ -220,7 +214,6 @@ const checkNextTaskIndex = (parentIndex, tasksList, task) => {
 }
 
 export const moveUp = (parentIndex, tasksList, setTasks, task) => {
-  // move up to the previous task with the same status
   let auxTaskList = [...tasksList];
   let parent = getParentTask(parentIndex, auxTaskList);
   let idx = parent.subtasks.indexOf(task);
@@ -239,7 +232,6 @@ export const moveUp = (parentIndex, tasksList, setTasks, task) => {
 }
 
 export const moveDown = (parentIndex, tasksList, setTasks, task) => {
-  // move down to the next task with the same status
   let auxTaskList = [...tasksList];
   let parent = getParentTask(parentIndex, auxTaskList);
   let idx = parent.subtasks.indexOf(task);

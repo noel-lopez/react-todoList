@@ -35,7 +35,6 @@ const TodoListComponent = ({
   */
   return (
     <>
-      {/* <button onClick={() => setTasks(updateTasks(tasks))}>Update</button> */}
       {/* <button onClick={() => console.log(tasks)}>Log tasks</button> */}
       <EmojisLegend />
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />

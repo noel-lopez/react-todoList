@@ -12,10 +12,10 @@ export const emojisDictForUser = {
   'pending': 'Pending',
   'in progress': 'In progress',
   'done': 'Done',
-  'moveUp': 'Move up',
-  'moveDown': 'Move down',
-  'delete': 'Delete',
-  'goToTask': 'Go to task'
+  'moveUp': 'Move task up',
+  'moveDown': 'Move task down',
+  'delete': 'Delete task',
+  'goToTask': 'Open task'
 }
 
 export const getEmoji = (word) => {

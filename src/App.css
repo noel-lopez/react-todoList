@@ -37,7 +37,6 @@ button:hover {
 }
 
 h1 {
-  /*center items verticaly*/
   display: flex;
   align-items: center;  
 }
