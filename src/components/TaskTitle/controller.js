@@ -1,5 +1,5 @@
 import { getParentTask } from "../TodoList/controller";
-import {getEmoji} from '../Card/controller'
+import {getEmoji} from '../EmojisLegend/controller'
 
 export const getParentWorkload = (parentIndex, tasks) => {
   let parent = getParentTask(parentIndex, tasks);

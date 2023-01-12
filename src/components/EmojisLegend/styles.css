@@ -1,0 +1,17 @@
+fieldset {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 10px 2% 0 0;
+  background-color: rgba(155, 242, 255, 0.214);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  min-width: 200px;
+  padding: 0 30px;
+}
+
+fieldset legend {
+  font-weight: bold;
+  padding: 0 10px;
+}
