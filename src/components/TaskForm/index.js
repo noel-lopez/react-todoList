@@ -18,7 +18,7 @@ const TaskFormComponent = ({
         </label>
         <label>
           Workload:
-          <input type="text" value={workload === 0 ? "" : workload} onChange={(event) => handleWorkload(event, setWorkload)} />
+          <input type="number" value={workload === 0 ? "" : workload} onChange={(event) => handleWorkload(event, setWorkload)} />
         </label>
         <button type='submit' onClick={(event) => handleSubmit(event, createTask, setTitle, setWorkload, title, workload)}>Create</button>
       </form>

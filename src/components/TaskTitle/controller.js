@@ -8,5 +8,5 @@ export const getParentWorkload = (parentIndex, tasks) => {
 
 export const getParentStatus = (parentIndex, tasks) => {
   let parent = getParentTask(parentIndex, tasks);
-  return getEmoji(parent.status);
+  return parent.status+" " + getEmoji(parent.status);
 }

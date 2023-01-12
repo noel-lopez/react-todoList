@@ -38,7 +38,10 @@ export const getParentTask = (parentIdx, tasksList) => {
 };
 
 export const createTask = (parentIdx, tasksList, setTasks, task) => {
-  if(task.title === "") return;
+  if(task.title === "") {
+    alert("Task title can't be empty");
+    return;
+  };
   let auxTaskList = [...tasksList];
   let parent = getParentTask(parentIdx, auxTaskList);
   parent.subtasks.push(task);
@@ -46,11 +49,13 @@ export const createTask = (parentIdx, tasksList, setTasks, task) => {
   setTasks(auxTaskList);
 }
 
-// TODO refactor: do it better readable
 export const getTitle = (parentIndex, tasksList) => {
-  if(parentIndex.length === 0) return "Root";
+  if(parentIndex.length === 0) return "🏠";
   let parent = getParentTask(parentIndex, tasksList);
-  return getTitle(parentIndex.slice(0, parentIndex.length - 1), tasksList) + " > " + parent.title;
+  let parentTitle = parent.title;
+  let parentParentIndex = parentIndex.slice(0, parentIndex.length - 1);
+  let parentparentTitle = getTitle(parentParentIndex, tasksList);
+  return parentparentTitle + " > " + parentTitle;
 }
 
 export const getPendingTasks = (parentIndex, tasksList) => {
