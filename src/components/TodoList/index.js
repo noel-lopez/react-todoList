@@ -9,7 +9,8 @@ import {
   deleteTask,
   goToTask,
   goBack,
-  tasksMock
+  tasksMock,
+  updateTasks
 } from './controller';
 import { useState } from 'react';
 import TaskForm from '../TaskForm';
@@ -28,10 +29,13 @@ const TodoListComponent = ({
   /*
     todolist:
     - TODO: use props on changeStatus & deleteTask (Card component)
-    - TODO: think about putting the task h1 inside the TaskTitle component
+    - TODO refactor: put the task h1 inside the TaskTitle component
+    - TODO refactor: make the columns a component with props title and tasksToShow
   */
   return (
     <>
+      <button onClick={() => updateTasks(tasks, setTasks)}>Update</button>
+      <button onClick={() => console.log(tasks)}>Log tasks</button>
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
       <h1><button onClick={() => goBack(parentIndex, setParentIndex)}>{"<"}</button>{getTitle(parentIndex, tasks)}</h1>
       <TaskTitle parentIndex={parentIndex} tasks={tasks} />
@@ -43,8 +47,8 @@ const TodoListComponent = ({
               <Card
                 key={index}
                 task={task}
-                changeStatus={() => changeStatus()}
-                deleteTask={() => deleteTask()}
+                changeStatus={(newStatus) => changeStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
             ))
@@ -57,8 +61,8 @@ const TodoListComponent = ({
               <Card
                 key={index}
                 task={task}
-                changeStatus={() => changeStatus()}
-                deleteTask={() => deleteTask()}
+                changeStatus={(newStatus) => changeStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
             ))
@@ -71,8 +75,8 @@ const TodoListComponent = ({
               <Card
                 key={index}
                 task={task}
-                changeStatus={() => changeStatus()}
-                deleteTask={() => deleteTask()}
+                changeStatus={(newStatus) => changeStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
             ))

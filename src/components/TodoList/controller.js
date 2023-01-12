@@ -31,6 +31,7 @@ export const getParentTask = (parentIdx, tasksList) => {
   if (parentIdx.length === 0) {
     return tasksList[0];
   }
+  // TODO refactor: use foreach instead of reduce
   return parentIdx.reduce((acc, curr) => {
     return acc.subtasks[curr];
   }, tasksList[0]);
@@ -45,41 +46,52 @@ export const createTask = (parentIdx, tasksList, setTasks, task) => {
 }
 
 // TODO: getTitle(parentIndex, tasks) - use recursion to get all the parents titles
-
-export const getTitle = (parentIndex, tasks) => {
-  let parent = getParentTask(parentIndex, tasks);
+export const getTitle = (parentIndex, tasksList) => {
+  let parent = getParentTask(parentIndex, tasksList);
   return parent.title;
 }
 
-export const getPendingTasks = (parentIndex, tasks) => {
-  let parent = getParentTask(parentIndex, tasks);
+export const getPendingTasks = (parentIndex, tasksList) => {
+  let parent = getParentTask(parentIndex, tasksList);
   return parent.subtasks.filter(task => task.status === "pending");
 }
 
-export const getInProgressTasks = (parentIndex, tasks) => {
-  let parent = getParentTask(parentIndex, tasks);
+export const getInProgressTasks = (parentIndex, tasksList) => {
+  let parent = getParentTask(parentIndex, tasksList);
   return parent.subtasks.filter(task => task.status === "in progress");
 }
 
-export const getDoneTasks = (parentIndex, tasks) => {
-  let parent = getParentTask(parentIndex, tasks);
+export const getDoneTasks = (parentIndex, tasksList) => {
+  let parent = getParentTask(parentIndex, tasksList);
   return parent.subtasks.filter(task => task.status === "done");
 }
 
-// TODO: changeStatus() - do function and add necessary props
-
-export const changeStatus = () => {
-
+// TODO: changeStatus() - updateTasks before setTasks
+// TODO: handle the case when the task has subtasks and what to do with them
+export const changeStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
+  let auxTaskList = [...taskList];
+  let parent = getParentTask(parentIndex, auxTaskList);
+  let idx = parent.subtasks.indexOf(task);
+  parent.subtasks[idx].status = newStatus;
+  setTasks(auxTaskList);
 }
 
-// TODO: deleteTask() - do function and add necessary props
-
-export const deleteTask = () => {
-
+// TODO: deleteTask() - updateTasks before setTasks
+// TODO: handle the case when the task to be deleted is the last one: parent keeps his status and workload
+export const deleteTask = (parentIdx, tasksList, setTasks, task) => {
+  let auxTaskList = [...tasksList];
+  let parent = getParentTask(parentIdx, auxTaskList);
+  let idx = parent.subtasks.indexOf(task);
+  parent.subtasks.splice(idx, 1);
+  // the children task modify the parent, so we need to updateTask once time for every parent
+  parentIdx.forEach((_, i) => {
+    updateTasks(auxTaskList, parentIdx.slice(0, i));
+  });
+  setTasks(auxTaskList);
 }
 
-export const goToTask = (parentIndex, setParentIndex, tasks, task) => {
-  let parent = getParentTask(parentIndex, tasks);
+export const goToTask = (parentIndex, setParentIndex, tasksList, task) => {
+  let parent = getParentTask(parentIndex, tasksList);
   let idx = parent.subtasks.indexOf(task);
   setParentIndex([...parentIndex, idx]);
 }
@@ -94,3 +106,31 @@ export const goBack = (parentIndex, setParentIndex) => {
 }
 
 // TODO (BIG): update all the tasks list when a task is created, updated or deleted
+
+export const updateTasks = (tasksList, setTasks, parentIndex=[]) => {
+  let auxTaskList = [...tasksList];
+  auxTaskList = updateTasksWorkload(auxTaskList);
+  setTasks(auxTaskList);
+}
+
+const updateTasksWorkload = (tasks) => {
+  // a parent workload is the sum of all his subtasks workload
+  // use recursion to update all the tasks
+  tasks.forEach((task) => {
+    updateTasksWorkload(task.subtasks);
+    if(task.subtasks.length === 0) {
+      return tasks;
+    }
+    task.workload = task.subtasks.reduce((acc, subtask) => acc + subtask.workload, 0);
+  });
+  return tasks;
+}
+
+const updateTasksStatus = (tasksList) => {
+  // a parent task status is the subtask status when has only one subtask
+  // a parent task status is done if all his subtasks are done
+  // a parent task status is in progress if at least one of his subtasks is in progress or done
+  // a parent task status is pending if all his subtasks are pending
+  // use recursion to update all the tasks
+  // TODO
+}

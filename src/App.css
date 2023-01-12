@@ -53,6 +53,7 @@ h1 button {
 input {
   padding: 0.2rem;
   margin-right: 2rem;
+  margin-left: 0.5rem;
 }
 input:focus {
   outline: none;
