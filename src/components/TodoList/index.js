@@ -5,7 +5,7 @@ import {
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
-  changeStatus,
+  updateStatus,
   deleteTask,
   goToTask,
   goBack,
@@ -33,7 +33,7 @@ const TodoListComponent = ({
   */
   return (
     <>
-      <button onClick={() => updateTasks(tasks, setTasks)}>Update</button>
+      <button onClick={() => setTasks(updateTasks(tasks))}>Update</button>
       <button onClick={() => console.log(tasks)}>Log tasks</button>
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
       <h1><button onClick={() => goBack(parentIndex, setParentIndex)}>{"<"}</button>{getTitle(parentIndex, tasks)}</h1>
@@ -46,7 +46,7 @@ const TodoListComponent = ({
               <Card
                 key={index}
                 task={task}
-                changeStatus={(newStatus) => changeStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
                 deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
@@ -60,7 +60,7 @@ const TodoListComponent = ({
               <Card
                 key={index}
                 task={task}
-                changeStatus={(newStatus) => changeStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
                 deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />
@@ -74,7 +74,7 @@ const TodoListComponent = ({
               <Card
                 key={index}
                 task={task}
-                changeStatus={(newStatus) => changeStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
                 deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
                 goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
               />

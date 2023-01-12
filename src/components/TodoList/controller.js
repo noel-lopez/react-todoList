@@ -37,13 +37,12 @@ export const getParentTask = (parentIdx, tasksList) => {
   }, tasksList[0]);
 };
 
-// TODO: createTask() - updateTasks before setTasks
-
 export const createTask = (parentIdx, tasksList, setTasks, task) => {
   if(task.title === "") return;
   let auxTaskList = [...tasksList];
   let parent = getParentTask(parentIdx, auxTaskList);
   parent.subtasks.push(task);
+  auxTaskList = updateTasks(auxTaskList);
   setTasks(auxTaskList);
 }
 
@@ -68,38 +67,44 @@ export const getDoneTasks = (parentIndex, tasksList) => {
   return parent.subtasks.filter(task => task.status === "done");
 }
 
-// TODO: changeStatus() - updateTasks before setTasks
-// TODO: prop to show Modal instead of console.log warning
-export const changeStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
+const hasMoreThanOneChild = (task) => {
+  // recursion to check if the task has more than one child or if has only one child with more than one child
+  if(task.subtasks.length > 1) return true;
+  if(task.subtasks.length === 1) return hasMoreThanOneChild(task.subtasks[0]);
+  return false;
+}
+
+export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
   let idx = parent.subtasks.indexOf(task);
-  // check how many children tasks has the task to be updated
-  let childrenTasks = parent.subtasks[idx].subtasks;
-  // if the task has only one child, we can update child status
-  if (childrenTasks.length === 1) {
-    parent.subtasks[idx].subtasks[0].status = newStatus;
-  }
-  // if the task has more than one child, we dont update anything and console log a warning
-  if (childrenTasks.length > 1) {
-    console.log("Warning: the task has more than one child, so we dont update anything");
-    return
-  } 
-  parent.subtasks[idx].status = newStatus;
+  parent.subtasks[idx] = setStatus(parent.subtasks[idx], newStatus);
+  updateTasks(auxTaskList, setTasks);
   setTasks(auxTaskList);
 }
 
-// TODO: deleteTask() - updateTasks before setTasks
-// TODO: handle the case when the task to be deleted is the last one: parent keeps his status and workload
+const setStatus = (task, newStatus) => {
+  // if task has more than one child, we dont update anything and console log a warning
+  if (hasMoreThanOneChild(task)) {
+    // TODO: show Modal asking for update all subtasks or not, instead of just not updating anything
+    alert("Warning: You are trying to update the status of a task with mutiple subtasks. Please update the status of the subtasks instead.");
+    return task;
+  } else {
+    // if task has only one child, we update the status of the child and the parent
+    if(task.subtasks.length === 1) {
+      task.subtasks[0] = setStatus(task.subtasks[0], newStatus);
+    }
+  }
+  task.status = newStatus;
+  return task;
+}
+
 export const deleteTask = (parentIdx, tasksList, setTasks, task) => {
   let auxTaskList = [...tasksList];
   let parent = getParentTask(parentIdx, auxTaskList);
   let idx = parent.subtasks.indexOf(task);
   parent.subtasks.splice(idx, 1);
-  // the children task modify the parent, so we need to updateTask once time for every parent
-  parentIdx.forEach((_, i) => {
-    updateTasks(auxTaskList, parentIdx.slice(0, i));
-  });
+  auxTaskList = updateTasks(auxTaskList);
   setTasks(auxTaskList);
 }
 
@@ -118,13 +123,12 @@ export const goBack = (parentIndex, setParentIndex) => {
   setParentIndex(auxParentIndex);
 }
 
-// TODO (BIG): update all the tasks list when a task is created, updated or deleted
-
-export const updateTasks = (tasksList, setTasks, parentIndex=[]) => {
+export const updateTasks = (tasksList) => {
+  console.log("updateTasks")
   let auxTaskList = [...tasksList];
   auxTaskList = updateTasksWorkload(auxTaskList);
   auxTaskList = updateTasksStatus(auxTaskList);
-  setTasks(auxTaskList);
+  return auxTaskList;
 }
 
 const updateTasksWorkload = (tasksList) => {
