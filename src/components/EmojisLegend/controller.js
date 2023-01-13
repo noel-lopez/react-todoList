@@ -1,11 +1,11 @@
 export const emojisDict = {
   'pending': '😴',
-  'in progress': '👨🏻‍💻',
+  'in progress': '🚧',
   'done': '✅',
   'moveUp': '⬆',
   'moveDown': '⬇',
   'delete': '❌',
-  'goToTask': '🚪'
+  'goToTask': '🔗'
 }
 
 export const emojisDictForUser = {

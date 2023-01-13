@@ -1,0 +1,7 @@
+.card {
+  background: #f8f8f8;
+  margin-top: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.289);
+  border-radius: 5px;
+  padding: 0 2rem;
+}

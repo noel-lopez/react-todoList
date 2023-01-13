@@ -6,12 +6,13 @@ fieldset {
   background-color: rgba(155, 242, 255, 0.214);
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   min-width: 200px;
   padding: 0 30px;
 }
 
 fieldset legend {
+  font-size: 0.9rem;
   font-weight: bold;
   padding: 0 10px;
 }
