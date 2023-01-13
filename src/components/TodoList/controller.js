@@ -93,7 +93,7 @@ export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) =
 }
 
 // TODO extra: show Modal asking for update all subtasks or not, instead of just not updating anything
-const setStatus = (task, newStatus) => {
+export const setStatus = (task, newStatus) => {
   if (hasMoreThanOneChild(task)) {
     alert("Warning: You are trying to update the status of a task with mutiple subtasks. Please update the status of the subtasks instead.");
     return task;
