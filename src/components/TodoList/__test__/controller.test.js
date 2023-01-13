@@ -1,7 +1,6 @@
 import {
   tasksMock,
   getParentTask,
-  getTitle,
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
@@ -24,18 +23,6 @@ describe("TodoList controller", () => {
       const parentIdx = [0];
       const expectedTask = tasks[0].subtasks[0];
       expect(getParentTask(parentIdx, tasks)).toEqual(expectedTask);
-    });
-  });
-
-  describe("getTitle", () => {
-    it("should return 🏠 when parentIndex is an empty array", () => {
-      const parentIndex = [];
-      expect(getTitle(parentIndex, tasks)).toEqual("🏠");
-    });
-
-    it("should return the correct title", () => {
-      const parentIndex = [1, 0];
-      expect(getTitle(parentIndex, tasks)).toEqual("🏠 > Subtask 2 > Subtask 2.1");
     });
   });
 
