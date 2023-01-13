@@ -4,6 +4,7 @@
   border: 1px solid rgba(0, 0, 0, 0.289);
   border-radius: 5px;
   padding: 0 2rem;
+  /* TODO: handle when to animate (add an animation class on certain moments to the .card divs) */
   animation: fadeIn .3s ease-in-out;
 }
 

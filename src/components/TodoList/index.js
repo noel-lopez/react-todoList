@@ -44,51 +44,57 @@ const TodoListComponent = ({
       <div className="todoList">
         <div className="column">
           <h2>Pending</h2>
-          {
-            getPendingTasks(parentIndex, tasks).map((task, index) => (
-              <Card
-                key={index}
-                task={task}
-                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
-                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
-                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
-                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
-                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
-              />
-            ))
-          }
+          <div className='cardsContainer'>
+            {
+              getPendingTasks(parentIndex, tasks).map((task, index) => (
+                <Card
+                  key={index}
+                  task={task}
+                  changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                  deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
+                  goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                  goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                  goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
+                />
+              ))
+            }
+          </div>
         </div>
         <div className="column">
-          <h2>In Progress</h2>
-          {
-            getInProgressTasks(parentIndex, tasks).map((task, index) => (
-              <Card
-                key={index}
-                task={task}
-                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
-                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
-                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
-                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
-                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
-              />
-            ))
-          }
+          <h2>In progress</h2>
+          <div className='cardsContainer'>
+            {
+              getInProgressTasks(parentIndex, tasks).map((task, index) => (
+                <Card
+                  key={index}
+                  task={task}
+                  changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                  deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
+                  goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                  goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                  goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
+                />
+              ))
+            }
+          </div>
         </div>
         <div className="column">
           <h2>Done</h2>
-          {
-            getDoneTasks(parentIndex, tasks).map((task, index) => (
-              <Card
-                key={index}
-                task={task}
-                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
-                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
-                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
-                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
-                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
-              />
-            ))
-          }
+          <div className='cardsContainer'>
+            {
+              getDoneTasks(parentIndex, tasks).map((task, index) => (
+                <Card
+                  key={index}
+                  task={task}
+                  changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                  deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
+                  goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                  goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                  goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
+                />
+              ))
+            }
+          </div>
         </div>
       </div>
     </>
