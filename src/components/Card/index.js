@@ -10,7 +10,6 @@ const CardComponent = ({
   goUp,
   goDown
 }) => {
-  // TODO refactor: do button component with type, onClick, condition to render and text as props (for almost all project)
   return (
     <div className="card">
       <h3>{getEmoji(task.status)} {task.title}</h3>

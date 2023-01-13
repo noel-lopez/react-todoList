@@ -38,6 +38,7 @@ export const getParentTask = (parentIdx, tasksList) => {
   return acc;
 };
 
+// TODO extra: when creating the first task of a parent that is in progress or done, ask user the new subtask status (same as parent or pending)
 export const createTask = (parentIdx, tasksList, setTasks, task) => {
   if(task.title === "") {
     alert("Task title can't be empty");
@@ -80,7 +81,6 @@ const hasMoreThanOneChild = (task) => {
   return false;
 }
 
-// TODO extra: move task to the end of the list when updating status
 export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
@@ -92,7 +92,7 @@ export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) =
 }
 
 // TODO extra: show Modal asking for update all subtasks or not, instead of just not updating anything
-const setStatus = (task, newStatus) => {
+export const setStatus = (task, newStatus) => {
   if (hasMoreThanOneChild(task)) {
     alert("Warning: You are trying to update the status of a task with mutiple subtasks. Please update the status of the subtasks instead.");
     return task;
@@ -143,7 +143,11 @@ const updateTasksWorkload = (tasksList) => {
     if(task.subtasks.length === 0) {
       return task;
     }
-    task.workload = task.subtasks.reduce((acc, subtask) => acc + subtask.workload, 0);
+    let newWorkload = 0;
+    task.subtasks.forEach((subtask) => {
+      newWorkload += subtask.workload;
+    })
+    task.workload = newWorkload;
   });
   return tasksList;
 }
@@ -184,8 +188,6 @@ const updateTasksStatus = (tasksList) => {
   });
   return tasksList;
 }
-
-// TODO extra: be able to move task position in the column
 
 const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
   let parent = getParentTask(parentIndex, tasksList);

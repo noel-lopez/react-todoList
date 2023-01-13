@@ -4,4 +4,26 @@
   border: 1px solid rgba(0, 0, 0, 0.289);
   border-radius: 5px;
   padding: 0 2rem;
+  /* TODO: handle when to animate (add an animation class on certain moments to the .card divs) */
+  animation: fadeIn .3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0)
+  }
+}
+
+.card button {
+  padding: 0;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+  text-align: center;
 }

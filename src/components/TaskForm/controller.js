@@ -13,7 +13,7 @@ const clearForm = (setTitle, setWorkload) => {
   setWorkload(0);
 }
 
-export const handleSubmit = (event, createTask, setTitle, setWorkload ,title="Prueba", workload=2) => {
+export const handleSubmit = (event, createTask, setTitle, setWorkload ,title, workload) => {
   event.preventDefault();
   createTask({
     title,

@@ -1,7 +1,6 @@
 import './styles.css';
 import {
   createTask,
-  getTitle,
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
@@ -28,66 +27,72 @@ const TodoListComponent = ({
   const [parentIndex, setParentIndex] = useState(parentIdx)
   const [tasks, setTasks] = useState(tasksList)
 
-  /*
-    todolist:
-    - TODO refactor: put the task h1 inside the TaskTitle component
-    - TODO refactor: make the columns a component with props title and tasksToShow
-  */
+  const onGoBackButtonClick = () => {
+    goBack(parentIndex, setParentIndex);
+  }
+
+  // TODO refactor: make the columns a component with props title and tasksToShow
+  // TODO big refactor: make a button component with type, onClick, condition to render and text as props
   return (
     <>
       {/* <button onClick={() => console.log(tasks)}>Log tasks</button> */}
       <EmojisLegend />
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
-      <h1><button onClick={() => goBack(parentIndex, setParentIndex)}>{"<"}</button>{getTitle(parentIndex, tasks)}</h1>
-      <TaskTitle parentIndex={parentIndex} tasks={tasks} />
+      <TaskTitle parentIndex={parentIndex} tasks={tasks} onGoBackButtonClick={onGoBackButtonClick} />
       <div className="todoList">
         <div className="column">
           <h2>Pending</h2>
-          {
-            getPendingTasks(parentIndex, tasks).map((task, index) => (
-              <Card
-                key={index}
-                task={task}
-                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
-                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
-                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
-                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
-                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
-              />
-            ))
-          }
+          <div className='cardsContainer'>
+            {
+              getPendingTasks(parentIndex, tasks).map((task, index) => (
+                <Card
+                  key={index}
+                  task={task}
+                  changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                  deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
+                  goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                  goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                  goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
+                />
+              ))
+            }
+          </div>
         </div>
         <div className="column">
-          <h2>In Progress</h2>
-          {
-            getInProgressTasks(parentIndex, tasks).map((task, index) => (
-              <Card
-                key={index}
-                task={task}
-                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
-                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
-                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
-                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
-                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
-              />
-            ))
-          }
+          <h2>In progress</h2>
+          <div className='cardsContainer'>
+            {
+              getInProgressTasks(parentIndex, tasks).map((task, index) => (
+                <Card
+                  key={index}
+                  task={task}
+                  changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                  deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
+                  goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                  goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                  goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
+                />
+              ))
+            }
+          </div>
         </div>
         <div className="column">
           <h2>Done</h2>
-          {
-            getDoneTasks(parentIndex, tasks).map((task, index) => (
-              <Card
-                key={index}
-                task={task}
-                changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
-                deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
-                goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
-                goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
-                goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
-              />
-            ))
-          }
+          <div className='cardsContainer'>
+            {
+              getDoneTasks(parentIndex, tasks).map((task, index) => (
+                <Card
+                  key={index}
+                  task={task}
+                  changeStatus={(newStatus) => updateStatus(parentIndex, tasks, setTasks, task, newStatus)}
+                  deleteTask={() => deleteTask(parentIndex, tasks, setTasks, task)}
+                  goToTask={() => goToTask(parentIndex, setParentIndex, tasks, task)}
+                  goUp={() => moveUp(parentIndex, tasks, setTasks, task)}
+                  goDown={() => moveDown(parentIndex, tasks, setTasks, task)}
+                />
+              ))
+            }
+          </div>
         </div>
       </div>
     </>
