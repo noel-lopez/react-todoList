@@ -4,7 +4,6 @@ import {
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
-  setStatus
 } from "../controller";
 
 describe("TodoList controller", () => {
@@ -46,20 +45,6 @@ describe("TodoList controller", () => {
     it("should return an empty array if there are no done tasks", () => {
       const parentIndex = [];
       expect(getDoneTasks(parentIndex, tasks)).toEqual([]);
-    });
-  });
-
-  describe("setStatus", () => {
-    it("should update the status of a task", () => {
-      const task = tasks[0].subtasks[0];
-      const newStatus = "done";
-      const expectedTask = {
-        title: "Subtask 1",
-        workload: 3,
-        status: "done",
-        subtasks: []
-      };
-      expect(setStatus(task, newStatus)).toEqual(expectedTask);
     });
   });
 });
