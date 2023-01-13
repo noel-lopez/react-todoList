@@ -32,7 +32,6 @@ const TodoListComponent = ({
     todolist:
     - TODO refactor: put the task h1 inside the TaskTitle component
     - TODO refactor: make the columns a component with props title and tasksToShow
-    - TODO big refactor: make a component for each column
     - TODO big refactor: make a button component with type, onClick, condition to render and text as props
   */
   return (
