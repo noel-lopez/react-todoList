@@ -10,6 +10,7 @@ const CardComponent = ({
   goUp,
   goDown
 }) => {
+  // TODO: use svg icons instead of emojis
   return (
     <div className="card">
       <h3>{getEmoji(task.status)} {task.title}</h3>
