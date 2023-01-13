@@ -23,6 +23,7 @@ const ColumnComponent = ({
   const cardGoUp = (task) => moveUp(parentIndex, tasks, setTasks, task);
   const cardGoDown = (task) => moveDown(parentIndex, tasks, setTasks, task);
 
+  // TODO fix bug: sometimes cards doesn't move up or down
   return (
     <div className="column">
       <h2>{title}</h2>
