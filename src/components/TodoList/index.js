@@ -1,7 +1,6 @@
 import './styles.css';
 import {
   createTask,
-  getTitle,
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
