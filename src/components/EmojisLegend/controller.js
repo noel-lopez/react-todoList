@@ -25,11 +25,3 @@ export const getEmoji = (word) => {
     return '🤷🏻‍♂️';
   }
 }
-
-export const renderDict = () => {
-  return Object.keys(emojisDict).map((key, index) => (
-    <p key={index}>
-      {emojisDictForUser[key]}: {emojisDict[key]}
-    </p>
-  ))
-}

@@ -1,9 +1,19 @@
 import './styles.css';
 import {
-  renderDict
+  emojisDict,
+  emojisDictForUser,
 } from './controller';
 
 const EmojisLegendComponent = () => {
+
+  const renderDict = () => {
+    return Object.keys(emojisDict).map((key, index) => (
+      <p key={index}>
+        {emojisDictForUser[key]}: {emojisDict[key]}
+      </p>
+    ))
+  }
+
   return (
     <fieldset>
       <legend>Buttons</legend>
