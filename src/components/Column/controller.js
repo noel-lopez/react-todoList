@@ -45,7 +45,9 @@ export const goToTask = (parentIndex, setParentIndex, tasksList, task) => {
   setParentIndex([...parentIndex, idx]);
 }
 
-const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
+// TODO fix bug: sometimes cards doesn't move up or down
+// detected bug: when moving up/down a card that has another card with different status above/below it, the card doesn't move
+export const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
   let parent = getParentTask(parentIndex, tasksList);
   let idx = parent.subtasks.indexOf(task);
   if(idx === 0) {
@@ -58,7 +60,7 @@ const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
   return checkPrevTaskIndex(parentIndex, tasksList, prevTask);
 }
 
-const checkNextTaskIndex = (parentIndex, tasksList, task) => {
+export const checkNextTaskIndex = (parentIndex, tasksList, task) => {
   let parent = getParentTask(parentIndex, tasksList);
   let idx = parent.subtasks.indexOf(task);
   if(idx === parent.subtasks.length - 1) {
