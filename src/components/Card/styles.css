@@ -4,6 +4,19 @@
   border: 1px solid rgba(0, 0, 0, 0.289);
   border-radius: 5px;
   padding: 0 2rem;
+  animation: fadeIn .3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0)
+  }
 }
 
 .card button {
