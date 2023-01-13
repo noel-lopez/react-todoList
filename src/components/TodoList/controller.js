@@ -81,7 +81,6 @@ const hasMoreThanOneChild = (task) => {
   return false;
 }
 
-// TODO refactor: handle hasMoerThanOneChild here instead of in setStatus
 export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
