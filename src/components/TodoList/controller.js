@@ -81,6 +81,7 @@ const hasMoreThanOneChild = (task) => {
   return false;
 }
 
+// TODO refactor: handle hasMoerThanOneChild here instead of in setStatus
 export const updateStatus = (parentIndex, taskList, setTasks, task, newStatus) => {
   let auxTaskList = [...taskList];
   let parent = getParentTask(parentIndex, auxTaskList);
@@ -143,7 +144,11 @@ const updateTasksWorkload = (tasksList) => {
     if(task.subtasks.length === 0) {
       return task;
     }
-    task.workload = task.subtasks.reduce((acc, subtask) => acc + subtask.workload, 0);
+    let newWorkload = 0;
+    task.subtasks.forEach((subtask) => {
+      newWorkload += subtask.workload;
+    })
+    task.workload = newWorkload;
   });
   return tasksList;
 }
