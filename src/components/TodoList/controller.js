@@ -38,12 +38,31 @@ export const getParentTask = (parentIdx, tasksList) => {
   return acc;
 };
 
+const findEqualTitleTask = ({parentIndex, tasksList, task}) => {
+  let parent = getParentTask(parentIndex, tasksList);
+  return parent.subtasks.find((t) => (
+    t.title === task.title
+  ));
+}
+
+const taskAlreadyExists = ({parentIndex, tasksList, task}) => {
+  let equalTitleTask = findEqualTitleTask({parentIndex, tasksList, task});
+  if(equalTitleTask) {
+    return true;
+  }
+  return false;
+}
+
 // TODO extra: when creating the first task of a parent that is in progress or done, ask user the new subtask status (same as parent or pending)
 export const createTask = (parentIdx, tasksList, setTasks, task) => {
   if(task.title === "") {
-    alert("Task title can't be empty");
+    alert("⚠ Task title can't be empty");
     return;
   };
+  if(taskAlreadyExists({parentIndex: parentIdx, tasksList, task})) {
+    alert("⚠ Task already exists");
+    return;
+  }
   let auxTaskList = [...tasksList];
   let parent = getParentTask(parentIdx, auxTaskList);
   parent.subtasks.push(task);

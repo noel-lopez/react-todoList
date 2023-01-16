@@ -5,7 +5,7 @@ import Button from '../Button'
 
 const CardComponent = ({
   task,
-  changeStatus,
+  //changeStatus,
   deleteTask,
   goToTask,
   goUp,
@@ -13,17 +13,22 @@ const CardComponent = ({
 }) => {
   // TODO: use svg icons instead of emojis
 
-  const onPendingButtonClick = () => changeStatus("pending");
+  /* const onPendingButtonClick = () => changeStatus("pending");
   const onInProgressButtonClick = () => changeStatus("in progress");
   const onDoneButtonClick = () => changeStatus("done");
   const pendingEmoji = getEmoji("pending");
   const inProgressEmoji = getEmoji("in progress");
-  const doneEmoji = getEmoji("done");
+  const doneEmoji = getEmoji("done"); */
   const deleteEmoji = getEmoji("delete");
   const goToTaskEmoji = getEmoji("goToTask");
 
+  const dragStart = (event) => {
+    const taskString = JSON.stringify(task);
+    event.dataTransfer.setData("task", taskString);
+  }
+
   return (
-    <div className="card">
+    <div className="card" draggable onDragStart={dragStart}>
       <h3>{getEmoji(task.status)} {task.title}</h3>
       <p>{task.workload}</p>
       {/* <button onClick={() => logTask(task)}>log</button> */}
@@ -37,7 +42,7 @@ const CardComponent = ({
         text="⬇"
         square
       />
-      <Button 
+      {/* <Button 
         onClick={onPendingButtonClick}
         text={pendingEmoji}
         square
@@ -54,7 +59,7 @@ const CardComponent = ({
         text={doneEmoji}
         square
         renderWhen={task.status !== 'done'}
-      />
+      /> */}
       <Button
         onClick={deleteTask}
         text={deleteEmoji}
@@ -71,7 +76,7 @@ const CardComponent = ({
 
 export default function Card({
   task,
-  changeStatus,
+  //changeStatus,
   deleteTask,
   goToTask,
   goUp,
@@ -80,7 +85,7 @@ export default function Card({
   return (
     <CardComponent 
       task={task}
-      changeStatus={changeStatus}
+      //changeStatus={changeStatus}
       deleteTask={deleteTask}
       goToTask={goToTask}
       goUp={goUp}
