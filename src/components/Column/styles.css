@@ -1,0 +1,19 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  height: 65vh;
+  border: 1px solid rgba(0, 0, 0, 0.289);
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+.column .cardsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
