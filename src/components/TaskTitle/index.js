@@ -4,6 +4,7 @@ import {
   getParentWorkload,
   getParentStatus,
 } from './controller';
+import Button from '../Button';
 
 const TaskTitleComponent = ({
   parentIndex,
@@ -13,7 +14,10 @@ const TaskTitleComponent = ({
   const title = getTitle(parentIndex, tasks);
   return (
     <div>
-      <h1><button onClick={onGoBackButtonClick}>{"<"}</button>{title}</h1>
+      <h1>
+        <Button onClick={onGoBackButtonClick} text='<' rounded />
+        {title}
+      </h1>
       <h3>Workload: {getParentWorkload(parentIndex, tasks)}</h3>
       <h3>Status: {getParentStatus(parentIndex, tasks)}</h3>
     </div>

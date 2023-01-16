@@ -5,6 +5,7 @@ import {
   handleSubmit
 } from './controller';
 import {useState} from 'react';
+import Button from '../Button';
 
 const TaskFormComponent = ({
   createTask,
@@ -38,7 +39,7 @@ const TaskFormComponent = ({
           Workload:
           <input type="number" value={workloadInputValue} onChange={onWorkloadInputChange} />
         </label>
-        <button type='submit' onClick={onCreateTaskButtonClick}>Create</button>
+        <Button type='submit' onClick={onCreateTaskButtonClick} text='Create' />
       </form>
     </div>
   )
