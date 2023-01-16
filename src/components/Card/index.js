@@ -1,6 +1,7 @@
 import './styles.css';
 // import {logTask} from './controller';
 import {getEmoji} from '../EmojisLegend/controller'
+import Button from '../Button'
 
 const CardComponent = ({
   task,
@@ -26,13 +27,44 @@ const CardComponent = ({
       <h3>{getEmoji(task.status)} {task.title}</h3>
       <p>{task.workload}</p>
       {/* <button onClick={() => logTask(task)}>log</button> */}
-      <button onClick={goUp}>⬆</button>
-      <button onClick={goDown}>⬇</button>
-      {task.status !== 'pending' && (<button onClick={onPendingButtonClick}> {pendingEmoji} </button>)}
-      {task.status !== 'in progress' && (<button onClick={onInProgressButtonClick}> {inProgressEmoji} </button>)}
-      {task.status !== 'done' && (<button onClick={onDoneButtonClick}> {doneEmoji} </button>)}
-      <button onClick={deleteTask}> {deleteEmoji} </button>
-      <button onClick={goToTask}> {goToTaskEmoji} </button>
+      <Button
+        onClick={goUp}
+        text="⬆"
+        square
+      />
+      <Button
+        onClick={goDown}
+        text="⬇"
+        square
+      />
+      <Button 
+        onClick={onPendingButtonClick}
+        text={pendingEmoji}
+        square
+        renderWhen={task.status !== 'pending'}
+      />
+      <Button
+        onClick={onInProgressButtonClick}
+        text={inProgressEmoji}
+        square
+        renderWhen={task.status !== 'in progress'}
+      />
+      <Button
+        onClick={onDoneButtonClick}
+        text={doneEmoji}
+        square
+        renderWhen={task.status !== 'done'}
+      />
+      <Button
+        onClick={deleteTask}
+        text={deleteEmoji}
+        square
+      />
+      <Button
+        onClick={goToTask}
+        text={goToTaskEmoji}
+        square
+      />
     </div>
   )
 }

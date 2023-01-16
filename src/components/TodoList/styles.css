@@ -6,28 +6,7 @@
   min-height: 50vh;
 }
 
-button {
-  padding: 0.4rem;
-  margin: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.289);
-  border-radius: 10%;
-  background: #fff;
-}
-
-button:hover {
-  background: #f8f8f8;
-  cursor: pointer;
-}
-
 h1 {
   display: flex;
   align-items: center;  
-}
-
-h1 button {
-  display: flex;
-  align-items: center;
-  height: 1.5rem;
-  width: 1.5rem;
-  border-radius: 50%;
 }

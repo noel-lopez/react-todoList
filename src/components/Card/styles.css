@@ -19,11 +19,3 @@
     transform: translateY(0)
   }
 }
-
-.card button {
-  padding: 0;
-  width: 3em;
-  height: 3em;
-  line-height: 3em;
-  text-align: center;
-}
