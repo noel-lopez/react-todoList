@@ -5,7 +5,7 @@ import Button from '../Button'
 
 const CardComponent = ({
   task,
-  changeStatus,
+  //changeStatus,
   deleteTask,
   goToTask,
   goUp,
@@ -76,7 +76,7 @@ const CardComponent = ({
 
 export default function Card({
   task,
-  changeStatus,
+  //changeStatus,
   deleteTask,
   goToTask,
   goUp,
@@ -85,7 +85,7 @@ export default function Card({
   return (
     <CardComponent 
       task={task}
-      changeStatus={changeStatus}
+      //changeStatus={changeStatus}
       deleteTask={deleteTask}
       goToTask={goToTask}
       goUp={goUp}

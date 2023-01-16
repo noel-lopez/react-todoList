@@ -1,6 +1,6 @@
 import './styles.css';
 import {
-  updateStatus,
+  //updateStatus,
   deleteTask,
   goToTask,
   moveUp,
@@ -20,7 +20,7 @@ const ColumnComponent = ({
   setTasks,
 }) => {
 
-  const cardChangeStatus = (newStatus, task) => updateStatus(parentIndex, tasks, setTasks, task, newStatus);
+  // const cardChangeStatus = (newStatus, task) => updateStatus(parentIndex, tasks, setTasks, task, newStatus);
   const cardDeleteTask = (task) => deleteTask(parentIndex, tasks, setTasks, task);
   const cardGoToTask = (task) => goToTask(parentIndex, setParentIndex, tasks, task);
   const cardGoUp = (task) => moveUp(parentIndex, tasks, setTasks, task);
@@ -46,7 +46,7 @@ const ColumnComponent = ({
             <Card
               key={index}
               task={task}
-              changeStatus={(newStatus) => cardChangeStatus(newStatus, task)}
+              // changeStatus={(newStatus) => cardChangeStatus(newStatus, task)}
               deleteTask={() => cardDeleteTask(task)}
               goToTask={() => cardGoToTask(task)}
               goUp={() => cardGoUp(task)}
