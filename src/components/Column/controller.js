@@ -45,32 +45,18 @@ export const goToTask = (parentIndex, setParentIndex, tasksList, task) => {
   setParentIndex([...parentIndex, idx]);
 }
 
-// TODO fix bug: sometimes cards doesn't move up or down
-// detected bug: when moving up/down a card that has another card with different status above/below it, the card doesn't move
-export const checkPrevTaskIndex = (parentIndex, tasksList, task) => {
+export const checkPrevTaskIndex = (parentIndex, tasksList, firstTask, currTask) => {
+  if(!currTask) currTask = firstTask;
   let parent = getParentTask(parentIndex, tasksList);
-  let idx = parent.subtasks.indexOf(task);
+  let idx = parent.subtasks.indexOf(currTask);
   if(idx === 0) {
     return -1;
   }
   let prevTask = parent.subtasks[idx - 1];
-  if(prevTask.status === task.status) {
+  if(prevTask.status === firstTask.status) {
     return idx - 1;
   }
-  return checkPrevTaskIndex(parentIndex, tasksList, prevTask);
-}
-
-export const checkNextTaskIndex = (parentIndex, tasksList, task) => {
-  let parent = getParentTask(parentIndex, tasksList);
-  let idx = parent.subtasks.indexOf(task);
-  if(idx === parent.subtasks.length - 1) {
-    return -1;
-  }
-  let nextTask = parent.subtasks[idx + 1];
-  if(nextTask.status === task.status) {
-    return idx + 1;
-  }
-  return checkNextTaskIndex(parentIndex, tasksList, nextTask);
+  return checkPrevTaskIndex(parentIndex, tasksList, firstTask, prevTask);
 }
 
 export const moveUp = (parentIndex, tasksList, setTasks, task) => {
@@ -89,6 +75,20 @@ export const moveUp = (parentIndex, tasksList, setTasks, task) => {
   parent.subtasks[prevTaskIndex] = task;
   console.log("moving up")
   setTasks(auxTaskList);
+}
+
+export const checkNextTaskIndex = (parentIndex, tasksList, firstTask, currTask) => {
+  if(!currTask) currTask = firstTask;
+  let parent = getParentTask(parentIndex, tasksList);
+  let idx = parent.subtasks.indexOf(currTask);
+  if(idx === parent.subtasks.length - 1) {
+    return -1;
+  }
+  let nextTask = parent.subtasks[idx + 1];
+  if(nextTask.status === firstTask.status) {
+    return idx + 1;
+  }
+  return checkNextTaskIndex(parentIndex, tasksList, firstTask, nextTask);
 }
 
 export const moveDown = (parentIndex, tasksList, setTasks, task) => {
