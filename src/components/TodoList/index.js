@@ -26,7 +26,6 @@ const TodoListComponent = ({
     goBack(parentIndex, setParentIndex);
   }
 
-  // TODO big refactor: make a button component with type, onClick, condition to render and text as props
   return (
     <>
       {/* <button onClick={() => console.log(tasks)}>Log tasks</button> */}
