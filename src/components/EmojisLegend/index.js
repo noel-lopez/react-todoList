@@ -16,7 +16,7 @@ const EmojisLegendComponent = () => {
 
   return (
     <fieldset>
-      <legend>Buttons</legend>
+      <legend>Icons</legend>
       {renderDict()}
     </fieldset>
   )
