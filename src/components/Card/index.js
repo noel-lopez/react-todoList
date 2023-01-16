@@ -22,8 +22,13 @@ const CardComponent = ({
   const deleteEmoji = getEmoji("delete");
   const goToTaskEmoji = getEmoji("goToTask");
 
+  const dragStart = (event) => {
+    const taskString = JSON.stringify(task);
+    event.dataTransfer.setData("task", taskString);
+  }
+
   return (
-    <div className="card">
+    <div className="card" draggable onDragStart={dragStart}>
       <h3>{getEmoji(task.status)} {task.title}</h3>
       <p>{task.workload}</p>
       {/* <button onClick={() => logTask(task)}>log</button> */}

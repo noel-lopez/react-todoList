@@ -108,3 +108,37 @@ export const moveDown = (parentIndex, tasksList, setTasks, task) => {
   console.log("moving down")
   setTasks(auxTaskList);
 }
+
+// DRAG AND DROP
+export const findEqualTaskOnParent = ({parentIndex, tasksList, task}) => {
+  let parent = getParentTask(parentIndex, tasksList);
+  return parent.subtasks.find((t) => (
+    t.title === task.title 
+    && t.status === task.status 
+    && t.workload === task.workload
+  ));
+}
+
+export const onDropPending = ({event, parentIndex, tasks, setTasks}) => {
+    const task = event.dataTransfer.getData("task");
+    const parsedTask = JSON.parse(task);
+    if(parsedTask.status === "pending") return;
+    const realTask = findEqualTaskOnParent({parentIndex, tasksList: tasks, task: parsedTask});
+    updateStatus(parentIndex, tasks, setTasks, realTask, "pending");
+  }
+
+  export const onDropInProgress = ({event, parentIndex, tasks, setTasks}) => {
+    const task = event.dataTransfer.getData("task");
+    const parsedTask = JSON.parse(task);
+    if(parsedTask.status === "in progress") return;
+    const realTask = findEqualTaskOnParent({parentIndex, tasksList: tasks, task: parsedTask});
+    updateStatus(parentIndex, tasks, setTasks, realTask, "in progress");
+  }
+
+  export const onDropDone = ({event, parentIndex, tasks, setTasks}) => {
+    const task = event.dataTransfer.getData("task");
+    const parsedTask = JSON.parse(task);
+    if(parsedTask.status === "done") return;
+    const realTask = findEqualTaskOnParent({parentIndex, tasksList: tasks, task: parsedTask});
+    updateStatus(parentIndex, tasks, setTasks, realTask, "done");
+  }
