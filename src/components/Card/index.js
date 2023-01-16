@@ -13,12 +13,12 @@ const CardComponent = ({
 }) => {
   // TODO: use svg icons instead of emojis
 
-  const onPendingButtonClick = () => changeStatus("pending");
+  /* const onPendingButtonClick = () => changeStatus("pending");
   const onInProgressButtonClick = () => changeStatus("in progress");
   const onDoneButtonClick = () => changeStatus("done");
   const pendingEmoji = getEmoji("pending");
   const inProgressEmoji = getEmoji("in progress");
-  const doneEmoji = getEmoji("done");
+  const doneEmoji = getEmoji("done"); */
   const deleteEmoji = getEmoji("delete");
   const goToTaskEmoji = getEmoji("goToTask");
 
@@ -42,7 +42,7 @@ const CardComponent = ({
         text="⬇"
         square
       />
-      <Button 
+      {/* <Button 
         onClick={onPendingButtonClick}
         text={pendingEmoji}
         square
@@ -59,7 +59,7 @@ const CardComponent = ({
         text={doneEmoji}
         square
         renderWhen={task.status !== 'done'}
-      />
+      /> */}
       <Button
         onClick={deleteTask}
         text={deleteEmoji}
