@@ -8,10 +8,11 @@ const ModalUpdateAllComponent = ({
   statusToUpdate,
   tasksList,
   parentIdx,
+  setTasks,
 }) => {
 
   const onConfirmClick = () => {
-    updateAll(tasksList, parentIdx, taskToUpdate, statusToUpdate)
+    updateAll(tasksList, parentIdx, taskToUpdate, statusToUpdate, setTasks)
     onClose()
   }
 
@@ -38,6 +39,7 @@ export default function ModalUpdateAll({
   statusToUpdate,
   tasksList,
   parentIdx,
+  setTasks,
 }) {
   return (
     <ModalUpdateAllComponent 
@@ -48,6 +50,7 @@ export default function ModalUpdateAll({
       statusToUpdate={statusToUpdate}
       tasksList={tasksList}
       parentIdx={parentIdx}
+      setTasks={setTasks}
     />
   )
 }

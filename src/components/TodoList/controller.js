@@ -104,7 +104,6 @@ export const goBack = (parentIndex, setParentIndex) => {
 }
 
 export const updateTasks = (tasksList) => {
-  console.log("updateTasks")
   let auxTaskList = [...tasksList];
   auxTaskList = updateTasksWorkload(auxTaskList);
   auxTaskList = updateTasksStatus(auxTaskList);
@@ -161,4 +160,50 @@ const updateTasksStatus = (tasksList) => {
     }
   });
   return tasksList;
+}
+
+// MODAL: Update all
+const updateAllSubtasksStatus = (tasksList, parentIdx, statusToUpdate) => {
+  let tasksListCopy = [...tasksList]
+  const parentTask = getParentTask(parentIdx, tasksListCopy)
+  const subtasks = parentTask.subtasks
+  subtasks.forEach((subtask, idx) => {
+    const updatedTask = {
+      ...subtask,
+      status: statusToUpdate
+    }
+    parentTask.subtasks[idx] = updatedTask
+    if (subtask.subtasks.length > 0) {
+      const newParentIdx = [...parentIdx, idx]
+      updateAllSubtasksStatus(tasksListCopy, newParentIdx, statusToUpdate)
+    }
+  }
+  )
+  return tasksListCopy
+}
+
+export const updateSingleTask = (tasksList, parentIdx, task, statusToUpdate, setTasks) => {
+  let tasksListCopy = [...tasksList]
+  const parentTask = getParentTask(parentIdx, tasksList)
+  const taskToUpdate = parentTask.subtasks.find(subtask => subtask.title === task.title)
+  const taskToUpdateIndex = parentTask.subtasks.findIndex(subtask => subtask.title === task.title)
+  const updatedTask = {
+    ...taskToUpdate,
+    status: statusToUpdate
+  }
+  parentTask.subtasks[taskToUpdateIndex] = updatedTask
+  const newParentIdx = [...parentIdx, taskToUpdateIndex]
+  tasksListCopy = updateAllSubtasksStatus(tasksListCopy, newParentIdx, statusToUpdate)
+  tasksListCopy = updateTasks(tasksListCopy)
+  setTasks(tasksListCopy)
+}
+
+export const modalUpdateAllOpening = (tasksList, parentIdx, setTaskToUpdate, setStatusToUpdate, openModalUpdateAll) => {
+  const auxTasksList = [...tasksList]
+  const parentTask = getParentTask(parentIdx, auxTasksList)
+  const taskToUpdate = parentTask.subtasks[1]
+  const statusToUpdate = 'done'
+  setTaskToUpdate(taskToUpdate)
+  setStatusToUpdate(statusToUpdate)
+  openModalUpdateAll()
 }

@@ -6,7 +6,8 @@ import {
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
-  getParentTask,
+  updateSingleTask,
+  modalUpdateAllOpening,
 } from './controller';
 import { useState } from 'react';
 import TaskForm from '../TaskForm';
@@ -36,54 +37,13 @@ const TodoListComponent = ({
 
   const appContainerClass = showModalUpdateAll || showModalFirstChild ? 'appContainer modalOpen' : 'appContainer';
 
-  // TODO refactor: move updateAll, updateSingleTask and modalUpdateAllOpening to controller.js
-  const updateAll = (tasksList, parentIdx, statusToUpdate) => {
-    let tasksListCopy = [...tasksList]
-    const parentTask = getParentTask(parentIdx, tasksListCopy)
-    const subtasks = parentTask.subtasks
-    subtasks.forEach((subtask, idx) => {
-      const updatedTask = {
-        ...subtask,
-        status: statusToUpdate
-      }
-      parentTask.subtasks[idx] = updatedTask
-      if (subtask.subtasks.length > 0) {
-        const newParentIdx = [...parentIdx, idx]
-        updateAll(tasksListCopy, newParentIdx, statusToUpdate)
-      }
-    }
-    )
-    return tasksListCopy
-  }
-
-  const updateSingleTask = (tasksList, parentIdx, task, statusToUpdate) => {
-    let tasksListCopy = [...tasksList]
-    const parentTask = getParentTask(parentIndex, tasksList)
-    const taskToUpdate = parentTask.subtasks.find(subtask => subtask.title === task.title)
-    const taskToUpdateIndex = parentTask.subtasks.findIndex(subtask => subtask.title === task.title)
-    const updatedTask = {
-      ...taskToUpdate,
-      status: statusToUpdate
-    }
-    parentTask.subtasks[taskToUpdateIndex] = updatedTask
-    const newParentIdx = [...parentIdx, taskToUpdateIndex]
-    tasksListCopy = updateAll(tasksListCopy, newParentIdx, statusToUpdate)
-    setTasks(tasksListCopy)
-  }
-
-  const modalUpdateAllOpening = () => {
-    const tasksList = [...tasks]
-    const parentTask = getParentTask(parentIndex, tasksList)
-    const taskToUpdate = parentTask.subtasks[1]
-    const statusToUpdate = 'done'
-    setTaskToUpdate(taskToUpdate)
-    setStatusToUpdate(statusToUpdate)
-    openModalUpdateAll()
+  const modalUpdateAllOpeningClick = () => {
+    modalUpdateAllOpening(tasks, parentIndex, setTaskToUpdate, setStatusToUpdate, openModalUpdateAll)
   }
 
   return (
     <div className={appContainerClass}>
-      <button onClick={modalUpdateAllOpening}>Modal update all</button>
+      <button onClick={modalUpdateAllOpeningClick}>Modal update all</button>
       <button onClick={openModalFirstChild}>Modal first child</button>
       <ModalUpdateAll 
         show={showModalUpdateAll} 
@@ -93,6 +53,7 @@ const TodoListComponent = ({
         statusToUpdate={statusToUpdate}
         tasksList={tasks}
         parentIdx={parentIndex}
+        setTasks={setTasks}
       />
       <ModalFirstChild
         show={showModalFirstChild}
