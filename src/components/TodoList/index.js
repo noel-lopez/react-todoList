@@ -6,13 +6,15 @@ import {
   getPendingTasks,
   getInProgressTasks,
   getDoneTasks,
+  getParentTask,
 } from './controller';
 import { useState } from 'react';
 import TaskForm from '../TaskForm';
 import TaskTitle from '../TaskTitle';
 import EmojisLegend from '../EmojisLegend';
 import Column from '../Column';
-import Modal from '../Modal';
+import ModalUpdateAll from '../ModalUpdateAll';
+import ModalFirstChild from '../ModalFirstChild';
 
 const TodoListComponent = ({
   parentIdx,
@@ -21,32 +23,82 @@ const TodoListComponent = ({
   const [parentIndex, setParentIndex] = useState(parentIdx)
   const [tasks, setTasks] = useState(tasksList)
   const [showModalUpdateAll, setShowModalUpdateAll] = useState(false)
-  const [showModalChildStatus, setShowModalChildStatus] = useState(false)
+  const [showModalFirstChild, setShowModalFirstChild] = useState(false)
+  const [taskToUpdate, setTaskToUpdate] = useState({})
+  const [statusToUpdate, setStatusToUpdate] = useState('')
 
   const closeModalUpdateAll = () => setShowModalUpdateAll(false);
   const openModalUpdateAll = () => setShowModalUpdateAll(true);
-  const closeModalChildStatus = () => setShowModalChildStatus(false);
-  const openModalChildStatus = () => setShowModalChildStatus(true);
+  const closeModalFirstChild = () => setShowModalFirstChild(false);
+  const openModalFirstChild = () => setShowModalFirstChild(true);
 
   const onGoBackButtonClick = () => goBack(parentIndex, setParentIndex);
 
-  const appContainerClass = showModalUpdateAll ? 'appContainer modalOpen' : 'appContainer';
+  const appContainerClass = showModalUpdateAll || showModalFirstChild ? 'appContainer modalOpen' : 'appContainer';
+
+  // TODO refactor: move updateAll, updateSingleTask and modalUpdateAllOpening to controller.js
+  const updateAll = (tasksList, parentIdx, statusToUpdate) => {
+    let tasksListCopy = [...tasksList]
+    const parentTask = getParentTask(parentIdx, tasksListCopy)
+    const subtasks = parentTask.subtasks
+    subtasks.forEach((subtask, idx) => {
+      const updatedTask = {
+        ...subtask,
+        status: statusToUpdate
+      }
+      parentTask.subtasks[idx] = updatedTask
+      if (subtask.subtasks.length > 0) {
+        const newParentIdx = [...parentIdx, idx]
+        updateAll(tasksListCopy, newParentIdx, statusToUpdate)
+      }
+    }
+    )
+    return tasksListCopy
+  }
+
+  const updateSingleTask = (tasksList, parentIdx, task, statusToUpdate) => {
+    let tasksListCopy = [...tasksList]
+    const parentTask = getParentTask(parentIndex, tasksList)
+    const taskToUpdate = parentTask.subtasks.find(subtask => subtask.title === task.title)
+    const taskToUpdateIndex = parentTask.subtasks.findIndex(subtask => subtask.title === task.title)
+    const updatedTask = {
+      ...taskToUpdate,
+      status: statusToUpdate
+    }
+    parentTask.subtasks[taskToUpdateIndex] = updatedTask
+    const newParentIdx = [...parentIdx, taskToUpdateIndex]
+    tasksListCopy = updateAll(tasksListCopy, newParentIdx, statusToUpdate)
+    setTasks(tasksListCopy)
+  }
+
+  const modalUpdateAllOpening = () => {
+    const tasksList = [...tasks]
+    const parentTask = getParentTask(parentIndex, tasksList)
+    const taskToUpdate = parentTask.subtasks[1]
+    const statusToUpdate = 'done'
+    setTaskToUpdate(taskToUpdate)
+    setStatusToUpdate(statusToUpdate)
+    openModalUpdateAll()
+  }
 
   return (
     <div className={appContainerClass}>
-      <button onClick={openModalUpdateAll}>Modal</button>
-      <button onClick={openModalChildStatus}>Modal status</button>
-      <Modal show={showModalUpdateAll} onClose={closeModalUpdateAll} onConfirm={() => console.log("Confirm")}>
-        <h2>⚠ CUIDADO ⚠</h2>
-        <p>Estas intentando actualizar una tarea que tiene subtareas.</p>
-        <p>Recomendamos que en estos casos actualices las subtareas en lugar de la tarea padre.</p>
-        <p>Aun asi, ¿quieres actualizar la tarea padre y todas sus subtareas?</p>
-      </Modal>
-      <Modal show={showModalChildStatus} onClose={closeModalChildStatus} isStatusModal setStatusResponse={(status) => console.log(status)}>
-        <h2>⚠ CUIDADO ⚠</h2>
-        <p>Estas creando subtarea de una tarea padre que tiene un estado distinto a "Pending"</p>
-        <p>¿Que status quieres que tenga la subtarea que estas creando?</p>
-      </Modal>
+      <button onClick={modalUpdateAllOpening}>Modal update all</button>
+      <button onClick={openModalFirstChild}>Modal first child</button>
+      <ModalUpdateAll 
+        show={showModalUpdateAll} 
+        onClose={closeModalUpdateAll} 
+        updateAll={updateSingleTask}
+        taskToUpdate={taskToUpdate}
+        statusToUpdate={statusToUpdate}
+        tasksList={tasks}
+        parentIdx={parentIndex}
+      />
+      <ModalFirstChild
+        show={showModalFirstChild}
+        onClose={closeModalFirstChild}
+        setStatusResponse={(status) => console.log("Set status response:", status)}
+      />
       <EmojisLegend />
       <TaskForm createTask={(task) => createTask(parentIndex, tasks, setTasks, task)} />
       <TaskTitle parentIndex={parentIndex} tasks={tasks} onGoBackButtonClick={onGoBackButtonClick} />

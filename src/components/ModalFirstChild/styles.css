@@ -1,0 +1,44 @@
+.pendingButton {
+  /* soft yellow */
+  background-color: #fff;
+  border: 1px solid #f1c40f;
+  color: #f1c40f;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pendingButton:hover {
+  background-color: #f1c40f;
+  color: #fff;
+}
+
+.inProgressButton {
+  /* soft blue */
+  background-color: #fff;
+  border: 1px solid #0984e3;
+  color: #0984e3;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inProgressButton:hover {
+  background-color: #0984e3;
+  color: #fff;
+}
+
+.doneButton {
+  /* soft green */
+  background-color: #fff;
+  border: 1px solid #00b894;
+  color: #00b894;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.doneButton:hover {
+  background-color: #00b894;
+  color: #fff;
+}
