@@ -4,12 +4,12 @@ import {
 } from './controller';
 
 const ButtonComponent = ({
-  type="button",
-  renderWhen=true,
-  text="button",
-  rounded=false,
-  square=false,
-  onClick= () => {}
+  type,
+  onClick,
+  renderWhen,
+  text,
+  rounded,
+  square
 }) => {
 
   const buttonClass = getButtonClass({rounded, square});
@@ -21,12 +21,12 @@ const ButtonComponent = ({
 }
 
 export default function Button({
-  type,
-  onClick,
-  renderWhen,
-  text,
-  rounded,
-  square
+  type="button",
+  renderWhen=true,
+  text="button",
+  rounded=false,
+  square=false,
+  onClick= () => {}
 }) {
   return (
     <ButtonComponent 
